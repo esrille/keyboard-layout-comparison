@@ -63,6 +63,7 @@ footer {
 <th>打鍵効率<span class='note'>(1)</span></th>
 <th>交互打鍵率</th>
 <th>連続シフト数<span class='note'>(2)</span></th>
+<th>同指異鍵</th>
 <th>同時打鍵を1打とした場合の打鍵効率</th>
 </tr>
 </table>
@@ -305,7 +306,7 @@ function evalLayout(element, index, array) {
     strokes = strokes.replace(/:R/g, 'X')
     strokes = strokes.replace(/\|L/g, 'X')
     strokes = strokes.replace(/\|S/g, 'X')
-    var m;
+    var m
     m = strokes.match(/X/g)
     var contCount = m ? m.length : 0
     strokes = strokes.replace(/[:\|X]/g, '')
@@ -316,21 +317,42 @@ function evalLayout(element, index, array) {
     m = lr.match(/LR/g)
     var lrCount = m ? m.length : 0
     m = lr.match(/RL/g)
-    var rlCount = m ? m.length : 0;
+    var rlCount = m ? m.length : 0
+
+    var sf = strokes.replace(/[SLR]/g, '')
+    sf = sf.replace(/(.)\1+/g, '$1')
+    sf = sf.replace(/[qaz]/g, 'A')
+    sf = sf.replace(/[12wsx]/g, 'B')
+    sf = sf.replace(/[3edc]/g, 'C')
+    sf = sf.replace(/[45rfvtgb]/g, 'D')
+    sf = sf.replace(/[67yhnujm]/g, 'E')
+    sf = sf.replace(/[8ik,]/g, 'F')
+    sf = sf.replace(/[90ol\.]/g, 'G')
+    sf = sf.replace(/[p;\/\-'=\\]/g, 'H')
+    var sfCount = 0
+    var prev = ' '
+    for (var i = 0; i < sf.length; ++i) {
+        c = sf.charAt(i)
+        if (c == prev)
+            ++sfCount
+        prev = c
+    }
+
     var inner = '<td>' + element[0] + '</td>'
     inner += '<td>' + strokes.length + '</td>'
     inner += '<td>' + ((Math.round(strokes.length / text.length * 100)) / 100) + '</td>'
     inner += '<td>' + (Math.round((lrCount + rlCount) / lr.length * 1000) / 10) + '%</td>'
     inner += '<td>' + contCount + '</td>'
+    inner += '<td>' + sfCount + '</td>'
     inner += '<td>' + ((Math.round(lr.length / text.length * 100)) / 100) + '</td>'
 
     var row = document.createElement("tr")
     row.innerHTML = inner
-    document.getElementById('result').appendChild(row);
+    document.getElementById('result').appendChild(row)
 }
 
 function retry() {
-    var table = document.getElementById('result');
+    var table = document.getElementById('result')
     while (2 <= table.rows.length) {
         var row = table.rows[table.rows.length - 1]
         row.parentNode.removeChild(row)
