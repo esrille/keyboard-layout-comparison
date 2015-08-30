@@ -61,15 +61,16 @@ footer {
 <th>配列</th>
 <th>打鍵数</th>
 <th>打鍵効率<span class='note'>(1)</span></th>
-<th>交互打鍵率</th>
+<th>交互打鍵数</th>
 <th>連続シフト数<span class='note'>(2)</span></th>
 <th>同指異鍵</th>
-<th>同時打鍵を1打とした場合の打鍵効率</th>
+<th>同手同段異指(3)</th>
 </tr>
 </table>
 <span class='note'>
 (1) 文章を入力するのに要したキーボードの打鍵数を、ひらがなに戻して数えた文章の文字数で割った数値。<br>
-(2) 同じシフト面の文字が続いて、シフトキーを押したままにできた文字数。
+(2) 同じシフト面の文字が続いて、シフトキーを押したままにできた文字数。<br>
+(3) T,G,B,Y,H,Nキーは除外。<br>
 </span>
 <p>
 <button onclick="retry()">再評価</button>
@@ -336,7 +337,7 @@ function evalLayout(element, index, array) {
     strokes = strokes.replace(/[:\|X]/g, '')
 
     var lr = strokes.replace(/[SLR]/g, '')
-    lr = lr.replace(/[12345qwertasdfgzxcvb]/g, 'L')
+    lr = lr.replace(/[12345qwertasdfgzxcvb\[\]]/g, 'L')
     lr = lr.replace(/[67890yuiop\-=hjkl;'\\nm,\.\/]/g, 'R')
     m = lr.match(/LR/g)
     var lrCount = m ? m.length : 0
@@ -345,7 +346,7 @@ function evalLayout(element, index, array) {
 
     var sf = strokes.replace(/[SLR]/g, '')
     sf = sf.replace(/(.)\1+/g, '$1')
-    sf = sf.replace(/[qaz]/g, 'A')
+    sf = sf.replace(/[qaz\[\]]/g, 'A')
     sf = sf.replace(/[12wsx]/g, 'B')
     sf = sf.replace(/[3edc]/g, 'C')
     sf = sf.replace(/[45rfvtgb]/g, 'D')
@@ -362,13 +363,30 @@ function evalLayout(element, index, array) {
         prev = c
     }
 
+    var sr = strokes
+    sr = sr.replace(/(.)\1+/g, '$1')
+    sr = sr.replace(/[qwer]/g, 'A')
+    sr = sr.replace(/[asdf]/g, 'B')
+    sr = sr.replace(/[zxcv]/g, 'C')
+    sr = sr.replace(/[uiop]/g, 'D')
+    sr = sr.replace(/[jkl;]/g, 'E')
+    sr = sr.replace(/[m,\.\/]/g, 'F')
+    var srCount = 0
+    var prev = ' '
+    for (var i = 0; i < sr.length; ++i) {
+        c = sr.charAt(i)
+        if (c == prev)
+            ++srCount
+        prev = c
+    }
+
     var inner = '<td>' + element[0] + '</td>'
     inner += '<td>' + strokes.length + '</td>'
     inner += '<td>' + ((Math.round(strokes.length / text.length * 100)) / 100) + '</td>'
-    inner += '<td>' + (Math.round((lrCount + rlCount) / lr.length * 1000) / 10) + '%</td>'
+    inner += '<td>' + (lrCount + rlCount) + ' (' + (Math.round((lrCount + rlCount) / lr.length * 1000) / 10) + '%)</td>'
     inner += '<td>' + contCount + '</td>'
     inner += '<td>' + sfCount + '</td>'
-    inner += '<td>' + ((Math.round(lr.length / text.length * 100)) / 100) + '</td>'
+    inner += '<td>' + srCount + '</td>'
 
     var row = document.createElement("tr")
     row.innerHTML = inner
