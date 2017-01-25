@@ -59,18 +59,20 @@ footer {
 <table id='result'>
 <tr>
 <th>配列</th>
+<th>記憶負担量<span class='note'>(1)</span></th>
 <th>打鍵数</th>
-<th>打鍵効率<span class='note'>(1)</span></th>
+<th>打鍵効率<span class='note'>(2)</span></th>
 <th>交互打鍵数</th>
-<th>連続シフト数<span class='note'>(2)</span></th>
+<th>連続シフト数<span class='note'>(3)</span></th>
 <th>同指異鍵</th>
-<th>同手同段異指<span class='note'>(3)</span></th>
+<th>同手同段異指<span class='note'>(4)</span></th>
 </tr>
 </table>
 <span class='note'>
-(1) 文章を入力するのに要したキーボードの打鍵数を、ひらがなに戻して数えた文章の文字数で割った数値。<br>
-(2) 同じシフト面の文字が続いて、シフトキーを押したままにできた文字数。<br>
-(3) T,G,B,Y,H,Nキーは除外。<br>
+(1) 森田正典博士の考案された<a href='https://ipsj.ixsq.nii.ac.jp/ej/?action=pages_view_main&active_action=repository_view_main_item_detail&item_id=37797&item_no=1&page_id=13&block_id=8'>計算方式</a>により、かな文字の記憶負担量を改めて計算したもの。数値が小さいほどキー配置を覚えやすい。<br>
+(2) 文章を入力するのに要したキーボードの打鍵数を、ひらがなに戻して数えた文章の文字数で割った数値。<br>
+(3) 同じシフト面の文字が続いて、シフトキーを押したままにできた文字数。<br>
+(4) T,G,B,Y,H,Nキーは除外。<br>
 </span>
 <p>
 <button onclick="retry()">再評価</button>
@@ -105,7 +107,7 @@ Copyright 2015, 2016 <a href='http://www.esrille.com/'>Esrille Inc.</a>
 
 <script>
 var layouts = [
-    [   "Stickney Next", [
+    [   "Stickney Next", 80, [
         ["あ", "3"],     ["い", "e"],     ["う", "4"],     ["え", "5"],     ["お", "6"],
         ["か", "t"],     ["き", "g"],     ["く", "h"],     ["け", "Sg|"],   ["こ", "b"],
         ["さ", "x"],     ["し", "d"],     ["す", "r"],     ["せ", "Sd|"],   ["そ", "Sr|"],
@@ -129,7 +131,7 @@ var layouts = [
         ["、", "'"],     ["。", "-"],     ["ー", "S/|"]
       ]
     ],
-    [   "ローマ字入力", [
+    [   "ローマ字入力", 86, [
         ["んあ", "nnあ"], ["んい", "nnい"], ["んう", "nnう"], ["んえ", "nnえ"], ["んお", "nnお"],
         ["んな", "nnな"], ["んに", "nnに"], ["んぬ", "nnぬ"], ["んね", "nnね"], ["んの", "nnの"],
         ["うぁ", "wha"],  ["うぃ", "wi"],                     ["うぇ", "we"],   ["うぉ", "who"],
@@ -182,7 +184,7 @@ var layouts = [
         ["、", ","],     ["。", "."],    ["ー", "-"]
       ]
     ],
-    [   "Nicola (親指シフト)", [
+    [   "Nicola (親指シフト)", 220, [
         ["あ", "Rs"],    ["い", "l"],     ["う", "a"],     ["え", "Lw"],    ["お", "Rj"],
         ["か", "w"],     ["き", "k"],     ["く", "i"],     ["け", "f"],     ["こ", "r"],
         ["さ", "t"],     ["し", "s"],     ["す", "c"],     ["せ", "g"],     ["そ", "m"],
@@ -206,7 +208,7 @@ var layouts = [
         ["、", "p"],     ["。", "z"],     ["ー", "Lx"]
       ]
     ],
-    [   "M式 (標準モード)", [
+    [   "M式 (標準モード)", 40, [
         ["きゃ", "Shあ"], ["きぃ", "Shい"], ["きゅ", "Shう"], ["きぇ", "Shえ"], ["きょ", "Shお"],
         ["しゃ", "Sjあ"], ["しぃ", "Sjい"], ["しゅ", "Sjう"], ["しぇ", "Sjえ"], ["しょ", "Sjお"],
         ["ちゃ", "Skあ"], ["ちぃ", "Skい"], ["ちゅ", "Skう"], ["ちぇ", "Skえ"], ["ちょ", "Skお"],
@@ -247,7 +249,7 @@ var layouts = [
         ["、", "."],     ["。", "S."],     ["ー", "-"]
       ]
     ],
-    [ "新JIS配列 (X 6004)", [
+    [ "新JIS配列 (X 6004)", 290, [
         ["あ", "b"],     ["い", "k"],     ["う", "j"],     ["え", "Su|"],   ["お", "Sj|"],
         ["か", "s"],     ["き", ";"],     ["く", "h"],     ["け", "w"],     ["こ", "x"],
         ["さ", "v"],     ["し", "d"],     ["す", "z"],     ["せ", "e"],     ["そ", "q"],
@@ -271,7 +273,7 @@ var layouts = [
         ["、", ","],     ["。", "."],     ["ー", "S.|"]
       ]
     ],
-    [   "TRON", [
+    [   "TRON", 325, [
         ["あ", "o"],     ["い", "j"],     ["う", "k"],     ["え", "Ry:"],   ["お", "Rh:"],
         ["か", "d"],     ["き", "y"],     ["く", "i"],     ["け", "Ru:"],   ["こ", "e"],
         ["さ", "v"],     ["し", "l"],     ["す", "n"],     ["せ", "Lc|"],   ["そ", "Lw|"],
@@ -297,7 +299,7 @@ var layouts = [
         ["、", ","],     ["。", "."],     ["ー", "Rk:"]
       ]
     ],
-    [ "月配列 (2-263)", [
+    [ "月配列 (2-263)", 325, [
         ["あ", "kf"],    ["い", "i"],     ["う", "j"],     ["え", "du"],    ["お", "dj"],
         ["か", "s"],     ["き", ";"],     ["く", "h"],     ["け", "x"],     ["こ", "w"],
         ["さ", "b"],     ["し", "e"],     ["す", "z"],     ["せ", "kc"],    ["そ", "q"],
@@ -320,7 +322,7 @@ var layouts = [
         ["、", ","],     ["。", "."],     ["ー", "d."]
       ]
     ],
-    [ "<a href='https://twitter.com/shiki_okasaka/status/818226122244562944' target=_blank>New Stickney 8</a>", [
+    [ "<a href='https://github.com/esrille/new-stickney' target=_blank>New Stickney (8案)</a>", 87, [
         ["つ", "q"],  ["と", "w"],    ["こ", "e"],    ["く", "r"],     ["け", "t"],   ["や", "y"],   ["ゆ", "u"],   ["よ", "i"],   ["な", "o"],   ["に", "p"],
         ["た", "a"],  ["は", "s"],    ["し", "d"],    ["か", "f"],     ["て", "g"],   ["ん", "h"],   ["う", "j"],   ["い", "k"],                  ["の", ";"],
         ["そ", "z"],  ["せ", "x"],    ["す", "c"],    ["き", "v"],     ["さ", "b"],   ["っ", "n"],   ["れ", "m"],   ["、", ","],   ["。", "."],   ["を", "/"],
@@ -347,7 +349,7 @@ function evalLayout(element, index, array) {
     var text = document.getElementById('text').value.replace(/\s/g, '')
 
     var strokes = text
-    element[1].forEach(function(element, index, array) {
+    element[2].forEach(function(element, index, array) {
         strokes = strokes.replace(new RegExp(element[0], 'g'), element[1])
     })
     strokes = strokes.replace(/:R/g, 'X')
@@ -403,6 +405,7 @@ function evalLayout(element, index, array) {
     }
 
     var inner = '<td>' + element[0] + '</td>'
+    inner += '<td>' + element[1] + '</td>'
     inner += '<td>' + strokes.length + '</td>'
     inner += '<td>' + ((Math.round(strokes.length / text.length * 100)) / 100) + '</td>'
     inner += '<td>' + (lrCount + rlCount) + ' (' + (Math.round((lrCount + rlCount) / lr.length * 1000) / 10) + '%)</td>'
