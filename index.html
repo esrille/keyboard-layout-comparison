@@ -5,7 +5,7 @@
 <title>打鍵効率の目安</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!--
-  Copyright 2015 Esrille Inc.
+  Copyright 2015-2017 Esrille Inc.
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -59,16 +59,20 @@ footer {
 <table id='result'>
 <tr>
 <th>配列</th>
+<th>記憶負担量<span class='note'>(1)</span></th>
 <th>打鍵数</th>
-<th>打鍵効率<span class='note'>(1)</span></th>
-<th>交互打鍵率</th>
-<th>連続シフト数<span class='note'>(2)</span></th>
-<th>同時打鍵を1打とした場合の打鍵効率</th>
+<th>打鍵効率<span class='note'>(2)</span></th>
+<th>交互打鍵数</th>
+<th>連続シフト数<span class='note'>(3)</span></th>
+<th>同指異鍵</th>
+<th>同手同段異指<span class='note'>(4)</span></th>
 </tr>
 </table>
 <span class='note'>
-(1) 文章を入力するのに要したキーボードの打鍵数を、ひらがなに戻して数えた文章の文字数で割った数値。<br>
-(2) 同じシフト面の文字が続いて、シフトキーを押したままにできた文字数。
+(1) 森田正典博士の考案された<a href='https://ipsj.ixsq.nii.ac.jp/ej/?action=pages_view_main&active_action=repository_view_main_item_detail&item_id=37797&item_no=1&page_id=13&block_id=8'>計算方式</a>により、かな文字の記憶負担量を改めて計算したもの。数値が小さいほどキー配置を覚えやすい。<br>
+(2) 文章を入力するのに要したキーボードの打鍵数を、ひらがなに戻して数えた文章の文字数で割った数値。<br>
+(3) 同じシフト面の文字が続いて、シフトキーを押したままにできた文字数。<br>
+(4) T,G,B,Y,H,Nキーは除外。<br>
 </span>
 <p>
 <button onclick="retry()">再評価</button>
@@ -88,6 +92,8 @@ footer {
 <p>
 打鍵効率は、かな配列を選ぶ際の目安のひとつです。<b>配列の絶対的な優劣を示す数値ではない</b>という点についてはご注意ください。
 <ul>
+<li>打鍵効率は、<a href='http://www.esrille.com/keyboard/ja-jp/layouts.ja-jp.html'>エスリル ニューキーボード NISSE</a>で採用しているレイアウトに基づいて計算しています。<br>
+<span class='note'>※ 月配列(2-263), New Stickneyは、NISSEのファームウェアではサポートしていません。</span>
 <li>Stickney Next (JISかな配列相当)は、打鍵効率には優れていますが、キーボードの4段すべてを利用するので、タッチタイプの習得には多少の練習が必要になります。
 <li>親指シフトは、キーボードの2段分だけで約90%の日本語が打てるようになっているため、タッチタイプの習得がしやすい配列になっています。
 <li>M式のように単純な打鍵効率ではなく、交互打鍵率を重視した設計もあります。左右のキーをほぼ同時に押せるレベルまで練習すると、実質的な打鍵効率はやはり非常に優れたものになります。
@@ -96,12 +102,12 @@ footer {
 <ul>
 
 <footer>
-Copyright 2015 <a href='http://www.esrille.com/'>Esrille Inc.</a>
+Copyright 2015, 2016 <a href='http://www.esrille.com/'>Esrille Inc.</a>
 </footer>
 
 <script>
 var layouts = [
-    [   "Stickney Next", [
+    [   "Stickney Next", 80, [
         ["あ", "3"],     ["い", "e"],     ["う", "4"],     ["え", "5"],     ["お", "6"],
         ["か", "t"],     ["き", "g"],     ["く", "h"],     ["け", "Sg|"],   ["こ", "b"],
         ["さ", "x"],     ["し", "d"],     ["す", "r"],     ["せ", "Sd|"],   ["そ", "Sr|"],
@@ -125,7 +131,7 @@ var layouts = [
         ["、", "'"],     ["。", "-"],     ["ー", "S/|"]
       ]
     ],
-    [   "ローマ字入力", [
+    [   "ローマ字入力", 86, [
         ["んあ", "nnあ"], ["んい", "nnい"], ["んう", "nnう"], ["んえ", "nnえ"], ["んお", "nnお"],
         ["んな", "nnな"], ["んに", "nnに"], ["んぬ", "nnぬ"], ["んね", "nnね"], ["んの", "nnの"],
         ["うぁ", "wha"],  ["うぃ", "wi"],                     ["うぇ", "we"],   ["うぉ", "who"],
@@ -178,7 +184,7 @@ var layouts = [
         ["、", ","],     ["。", "."],    ["ー", "-"]
       ]
     ],
-    [   "Nicola (親指シフト)", [
+    [   "Nicola (親指シフト)", 220, [
         ["あ", "Rs"],    ["い", "l"],     ["う", "a"],     ["え", "Lw"],    ["お", "Rj"],
         ["か", "w"],     ["き", "k"],     ["く", "i"],     ["け", "f"],     ["こ", "r"],
         ["さ", "t"],     ["し", "s"],     ["す", "c"],     ["せ", "g"],     ["そ", "m"],
@@ -198,11 +204,11 @@ var layouts = [
         ["ぁ", "Lq"],    ["ぃ", "Lb"],    ["ぅ", "Lz"],    ["ぇ", "Rp"],    ["ぉ", "R/"],
         ["ゃ", "Rr"],    ["ゅ", "Rf"],    ["ょ", "Ll"],
         ["っ", "R;"],
-        ["「", "R4"],    ["」", "R5"],
+        ["「", "["],     ["」", "]"],
         ["、", "p"],     ["。", "z"],     ["ー", "Lx"]
       ]
     ],
-    [   "M式 (標準モード)", [
+    [   "M式 (標準モード)", 40, [
         ["きゃ", "Shあ"], ["きぃ", "Shい"], ["きゅ", "Shう"], ["きぇ", "Shえ"], ["きょ", "Shお"],
         ["しゃ", "Sjあ"], ["しぃ", "Sjい"], ["しゅ", "Sjう"], ["しぇ", "Sjえ"], ["しょ", "Sjお"],
         ["ちゃ", "Skあ"], ["ちぃ", "Skい"], ["ちゅ", "Skう"], ["ちぇ", "Skえ"], ["ちょ", "Skお"],
@@ -231,9 +237,9 @@ var layouts = [
         ["ば", "/あ"],    ["び", "/い"],   ["ぶ", "/う"],   ["べ", "/え"],   ["ぼ", "/お"],
         ["ぱ", "pあ"],    ["ぴ", "pい"],   ["ぷ", "pう"],   ["ぺ", "pえ"],   ["ぽ", "pお"],
         ["あい", "v"],    ["おう", "b"],   ["えい", "z"],
-        ["あhう", "Sr"],  ["いhう", "Se"], ["うhう", "Sw"], ["えhい", "Sq"], ["おhう", "St"],
-        ["あん", "Sf"],   ["いん", "Sd"],  ["うん", "Ss"],  ["えん", "Sa"],  ["おん", "Sg"],
-        ["あkう", "Sf"],  ["いkう", "Sd"], ["うkう", "Ss"], ["えkう", "Sa"], ["おkう", "Sg"],
+        ["あhう", "Sr"],   ["いhう", "Se"],   ["うhう", "Sw"],  ["えhい", "Sq"],  ["おhう", "St"],
+        ["あん", "Sf"],   ["いん", "Sd"],   ["うん", "Ss"],  ["えん", "Sa"],  ["おん", "Sg"],
+        ["あkう", "Sf"],   ["いkう", "Sd"],   ["うkう", "Ss"],  ["えkう", "Sa"],  ["おkう", "Sg"],
         ["ん", "So"],
         ["あ", "f"],     ["い", "d"],     ["う", "s"],     ["え", "a"],     ["お", "g"],
         ["ぁ", "xf"],    ["ぃ", "xd"],    ["ぅ", "xs"],    ["ぇ", "xa"],    ["ぉ", "xg"],
@@ -243,7 +249,7 @@ var layouts = [
         ["、", "."],     ["。", "S."],     ["ー", "-"]
       ]
     ],
-    [ "新JIS配列 (X 6004)", [
+    [ "新JIS配列 (X 6004)", 290, [
         ["あ", "b"],     ["い", "k"],     ["う", "j"],     ["え", "Su|"],   ["お", "Sj|"],
         ["か", "s"],     ["き", ";"],     ["く", "h"],     ["け", "w"],     ["こ", "x"],
         ["さ", "v"],     ["し", "d"],     ["す", "z"],     ["せ", "e"],     ["そ", "q"],
@@ -263,11 +269,11 @@ var layouts = [
         ["ぁ", "Sq|"],   ["ぃ", "Sa|"],   ["ぅ", "Sz|"],   ["ぇ", "Sx|"],   ["ぉ", "Sc|"],
         ["ゃ", "Sb|"],   ["ゅ", "Sf|"],   ["ょ", "t"],
         ["っ", "n"],
-        ["「", "S-|"],   ["」", "S'|"],
+        ["「", "["],     ["」", "]"],
         ["、", ","],     ["。", "."],     ["ー", "S.|"]
       ]
     ],
-    [   "TRON", [
+    [   "TRON", 325, [
         ["あ", "o"],     ["い", "j"],     ["う", "k"],     ["え", "Ry:"],   ["お", "Rh:"],
         ["か", "d"],     ["き", "y"],     ["く", "i"],     ["け", "Ru:"],   ["こ", "e"],
         ["さ", "v"],     ["し", "l"],     ["す", "n"],     ["せ", "Lc|"],   ["そ", "Lw|"],
@@ -293,44 +299,127 @@ var layouts = [
         ["、", ","],     ["。", "."],     ["ー", "Rk:"]
       ]
     ],
+    [ "月配列 (2-263)", 325, [
+        ["あ", "kf"],    ["い", "i"],     ["う", "j"],     ["え", "du"],    ["お", "dj"],
+        ["か", "s"],     ["き", ";"],     ["く", "h"],     ["け", "x"],     ["こ", "w"],
+        ["さ", "b"],     ["し", "e"],     ["す", "z"],     ["せ", "kc"],    ["そ", "q"],
+        ["た", "g"],     ["ち", "-"],     ["つ", "y"],     ["て", "r"],     ["と", "f"],
+        ["な", "v"],     ["に", "c"],     ["ぬ", "dy"],    ["ね", "d,"],    ["の", "o"],
+        ["は", "a"],     ["ひ", "kw"],    ["ふ", "kr"],    ["へ", "kx"],    ["ほ", "ke"],
+        ["ま", "dh"],    ["み", "di"],    ["む", "dn"],    ["め", "kt"],    ["も", "dk"],
+        ["や", "do"],    ["ゆ", "d;"],    ["よ", "kg"],
+        ["ら", "kd"],    ["り", "p"],     ["る", "m"],     ["れ", "'"],     ["ろ", "dm"],
+        ["わ", "dl"],    ["を", "ks"],    ["ん", "u"],
+        ["が", "sl"],    ["ぎ", ";l"],    ["ぐ", "hl"],    ["げ", "xl"],    ["ご", "wl"],
+        ["ざ", "bl"],    ["じ", "el"],    ["ず", "zl"],    ["ぜ", "kcl"],   ["ぞ", "ql"],
+        ["だ", "gl"],    ["ぢ", "-l"],    ["づ", "yl"],    ["で", "rl"],    ["ど", "fl"],
+        ["ば", "al"],    ["び", "kwl"],   ["ぶ", "krl"],   ["べ", "kxl"],   ["ぼ", "kel"],
+        ["ぱ", "a/"],    ["ぴ", "kw/"],   ["ぷ", "kr/"],   ["ぺ", "kx/"],   ["ぽ", "ke/"],
+        ["ぁ", "kq"],    ["ぃ", "ka"],    ["ぅ", "kz"],    ["ぇ", "dp"],    ["ぉ", "d/"],
+        ["ゃ", "kb"],    ["ゅ", "kv"],    ["ょ", "t"],
+        ["っ", "n"],
+        ["「", "["],     ["」", "]"],
+        ["、", ","],     ["。", "."],     ["ー", "d."]
+      ]
+    ],
+    [ "<a href='https://github.com/esrille/new-stickney' target=_blank>New Stickney (8案)</a>", 87, [
+        ["つ", "q"],  ["と", "w"],    ["こ", "e"],    ["く", "r"],     ["け", "t"],   ["や", "y"],   ["ゆ", "u"],   ["よ", "i"],   ["な", "o"],   ["に", "p"],
+        ["た", "a"],  ["は", "s"],    ["し", "d"],    ["か", "f"],     ["て", "g"],   ["ん", "h"],   ["う", "j"],   ["い", "k"],                  ["の", ";"],
+        ["そ", "z"],  ["せ", "x"],    ["す", "c"],    ["き", "v"],     ["さ", "b"],   ["っ", "n"],   ["れ", "m"],   ["、", ","],   ["。", "."],   ["を", "/"],
+
+        ["づ", "ql"], ["ど", "wl"],   ["ご", "el"],   ["ぐ", "rl"],    ["げ", "tl"],  ["ゃ", "yl"],  ["ゅ", "ul"],  ["ょ", "il"],
+        ["だ", "al"], ["ば", "sl"],   ["じ", "dl"],   ["が", "fl"],    ["で", "gl"],                 ["ぅ", "jl"],  ["ぃ", "kl"],
+        ["ぞ", "zl"], ["ぜ", "xl"],   ["ず", "cl"],   ["ぎ", "vl"],    ["ざ", "bl"],
+
+                      ["ち", "Sw|"],  ["ぬ", "Se|"],  ["ね", "Sr|"],                  ["む", "Sy|"], ["め", "Su|"], ["お", "Si|"], ["ま", "So|"], ["み", "Sp|"],
+                      ["ひ", "Ss|"],  ["ふ", "Sd|"],  ["へ", "Sf|"],   ["ほ", "Sg|"], ["わ", "Sh|"], ["る", "Sj|"], ["り", "Sk|"], ["あ", "Sl|"], ["も", "S;|"],
+                                                                                      ["ろ", "Sn|"], ["ら", "Sm|"], ["え", "S,|"], ["ー", "S.|"],
+
+                      ["ぢ", "Swl"],                                                                                ["ぉ", "Sil"],
+                      ["ば", "Ssl"],  ["ぶ", "Sdl"],  ["べ", "Sfl"],   ["ぼ", "Sgl"],                                              ["ぁ", "Sll"],
+                                                                                                                    ["ぇ", "S,l"],
+
+                      ["ぱ", "sSa|"],
+                      ["ぴ", "Ssa|"], ["ぷ", "Sda|"], ["ぺ", "Sfa|"],  ["ぽ", "Sga|"],
+      ]
+    ]
 ]
 
 function evalLayout(element, index, array) {
     var text = document.getElementById('text').value.replace(/\s/g, '')
 
     var strokes = text
-    element[1].forEach(function(element, index, array) {
+    element[2].forEach(function(element, index, array) {
         strokes = strokes.replace(new RegExp(element[0], 'g'), element[1])
     })
     strokes = strokes.replace(/:R/g, 'X')
     strokes = strokes.replace(/\|L/g, 'X')
     strokes = strokes.replace(/\|S/g, 'X')
-    var m;
+    var m
     m = strokes.match(/X/g)
     var contCount = m ? m.length : 0
     strokes = strokes.replace(/[:\|X]/g, '')
 
     var lr = strokes.replace(/[SLR]/g, '')
-    lr = lr.replace(/[12345qwertasdfgzxcvb]/g, 'L')
+    lr = lr.replace(/[12345qwertasdfgzxcvb\[\]]/g, 'L')
     lr = lr.replace(/[67890yuiop\-=hjkl;'\\nm,\.\/]/g, 'R')
     m = lr.match(/LR/g)
     var lrCount = m ? m.length : 0
     m = lr.match(/RL/g)
-    var rlCount = m ? m.length : 0;
+    var rlCount = m ? m.length : 0
+
+    var sf = strokes.replace(/[SLR]/g, '')
+    sf = sf.replace(/(.)\1+/g, '$1')
+    sf = sf.replace(/[qaz\[\]]/g, 'A')
+    sf = sf.replace(/[12wsx]/g, 'B')
+    sf = sf.replace(/[3edc]/g, 'C')
+    sf = sf.replace(/[45rfvtgb]/g, 'D')
+    sf = sf.replace(/[67yhnujm]/g, 'E')
+    sf = sf.replace(/[8ik,]/g, 'F')
+    sf = sf.replace(/[90ol\.]/g, 'G')
+    sf = sf.replace(/[p;\/\-'=\\]/g, 'H')
+    var sfCount = 0
+    var prev = ' '
+    for (var i = 0; i < sf.length; ++i) {
+        c = sf.charAt(i)
+        if (c == prev)
+            ++sfCount
+        prev = c
+    }
+
+    var sr = strokes
+    sr = sr.replace(/(.)\1+/g, '$1')
+    sr = sr.replace(/[qwer]/g, 'A')
+    sr = sr.replace(/[asdf]/g, 'B')
+    sr = sr.replace(/[zxcv]/g, 'C')
+    sr = sr.replace(/[uiop]/g, 'D')
+    sr = sr.replace(/[jkl;]/g, 'E')
+    sr = sr.replace(/[m,\.\/]/g, 'F')
+    var srCount = 0
+    var prev = ' '
+    for (var i = 0; i < sr.length; ++i) {
+        c = sr.charAt(i)
+        if (c == prev)
+            ++srCount
+        prev = c
+    }
+
     var inner = '<td>' + element[0] + '</td>'
+    inner += '<td>' + element[1] + '</td>'
     inner += '<td>' + strokes.length + '</td>'
     inner += '<td>' + ((Math.round(strokes.length / text.length * 100)) / 100) + '</td>'
-    inner += '<td>' + (Math.round((lrCount + rlCount) / lr.length * 1000) / 10) + '%</td>'
+    inner += '<td>' + (lrCount + rlCount) + ' (' + (Math.round((lrCount + rlCount) / lr.length * 1000) / 10) + '%)</td>'
     inner += '<td>' + contCount + '</td>'
-    inner += '<td>' + ((Math.round(lr.length / text.length * 100)) / 100) + '</td>'
+    inner += '<td>' + sfCount + '</td>'
+    inner += '<td>' + srCount + '</td>'
 
     var row = document.createElement("tr")
     row.innerHTML = inner
-    document.getElementById('result').appendChild(row);
+    document.getElementById('result').appendChild(row)
 }
 
 function retry() {
-    var table = document.getElementById('result');
+    var table = document.getElementById('result')
     while (2 <= table.rows.length) {
         var row = table.rows[table.rows.length - 1]
         row.parentNode.removeChild(row)
