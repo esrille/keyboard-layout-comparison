@@ -45,6 +45,12 @@ class Layout:
         self.cont = True
         if 'cont' in self.layout:
             self.cont = self.layout['cont']
+        self.prefixL = 'L'
+        self.prefixR = 'R'
+        if 'L' in self.normal:
+            self.prefixL = Layout.qwerty[self.normal.find('L')]
+        if 'R' in self.normal:
+            self.prefixR = Layout.qwerty[self.normal.find('R')]
         self.count = 0
 
     def toqwerty(self, u):
@@ -61,12 +67,12 @@ class Layout:
         else:
             pos = self.left.find(u)
             if 0 <= pos:
-                prefix = 'L'
+                prefix = self.prefixL
                 c = Layout.qwerty[pos]
             else:
                 pos = self.right.find(u)
                 if 0 <= pos:
-                    prefix = 'R'
+                    prefix = self.prefixR
                     c = Layout.qwerty[pos]
         if c:
             self.count += 1
